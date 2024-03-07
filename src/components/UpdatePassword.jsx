@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { URI } from '../connection/boot';
+import { useNavigate } from 'react-router-dom';
 
 export const UpdatePassword = () => {
         const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export const UpdatePassword = () => {
           email: '',
           password: '',
         })
+        const navigate = useNavigate()
         const handleChange = (e)=>{
                 const {name,value} = e.target;
                 setFormData({...formData, [name]: value});
@@ -21,11 +23,15 @@ export const UpdatePassword = () => {
         const togglePasswordVisibility = () => {
                 setFormData({ ...formData, showPassword: !formData.showPassword });
         };
-
+        useEffect(()=>{
+                setResetDetails({
+                  email: formData.email,
+                  password: formData.password
+                })
+        },[formData])
 
         const handleFormSubmit = async (e) => {
           e.preventDefault()
-          console.log(formData);
             if(formData.password !== formData.confirmPassword){
               window.alert("Password is not matching ")
               setFormData({
@@ -36,11 +42,20 @@ export const UpdatePassword = () => {
               })
             }
             else{
-              setResetDetails(formData.email, formData.password)
+              
               try{
                 const response = await axios.post(URI+"/reset",resetDetails)
-                console.log(response)
-              }catch(error){console.log(error)}
+                if(response.status === 200 ){
+                  window.alert("Password updated successfully")
+                  navigate('/api/users/login')
+                }
+                else if(response.status === 400){
+                  window.alert("Server Can't able to get required Fields");
+                }
+              }catch(error){
+                window.alert("Something went wront either Email Not Found Or Error In Internal Server")
+                console.log(error)
+              }
             }
 
         }
@@ -106,7 +121,7 @@ export const UpdatePassword = () => {
             type="submit"
             className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
           >
-            Sign Up
+            Change Password
           </button>
         </form>
       </div>
