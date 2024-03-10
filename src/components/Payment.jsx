@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { URI } from '../connection/boot';
 import { useNavigate } from 'react-router-dom';
-import NavBar from './NavBar';
 
 export const Payment = () => {
   const [amount, setAmount] = useState('');
@@ -32,7 +31,6 @@ export const Payment = () => {
 
   return (
     <div className="max-w-xl mx-auto p-8 mt-8 bg-gray-100 rounded-md shadow-md">
-      <NavBar/>
     <h2 className="text-2xl font-semibold mb-4">Order Details</h2>
     <form onSubmit={handlePayment}>
       <div className="mb-4">
