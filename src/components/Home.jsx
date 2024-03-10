@@ -12,6 +12,7 @@ import '../index.css'
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
+import NavBar from './NavBar'
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -83,19 +84,24 @@ export default function Home() {
     dots:true,
     infinite:true,
     speed:600,
-    slidesToShow:3,
+    slidesToShow:5,
     slidesToScroll:1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    lazyLoad: true,
+    prevArrow: <SamplePrevArrow/>,
+    nextArrow: <SampleNextArrow/>,
   };
+
+
   return (
-    <div className="w-full md:w-3/4 lg:w-2/3 xl:w-1/2 m-auto">
+    <div className='w-full flex flex-wrap'>
+      <NavBar/>
+    <div className="w-full md:w-3/4 m-auto">
       <div className="mt-20">
         <Slider {...settings}>
           {courses.map((d, index) => (
-            <div key={index} className="bg-white h-[450px] text-black rounded-xl">
+            <div key={index} className="bg-white h-[400px] shadow-lg shadow-[gray] text-black rounded-xl">
               <div className="h-56 rounded-t-xl bg-indigo-950 flex justify-center items-center">
-                <img src={d.image} className="h-44 rounded-full" alt="" />
+                <img src={d.image} className=" h-44 rounded-full" alt="" />
               </div>
               <div className="flex flex-col justify-center items-center gap-4 p-4">
                 <p className="text-xl font-semibold">{d.name}</p>
@@ -105,6 +111,7 @@ export default function Home() {
           ))}
         </Slider>
       </div>
+    </div>
     </div>
   )
 }
